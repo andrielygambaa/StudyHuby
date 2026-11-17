@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="escuro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StudyHub</title>
+  <meta name="description" content="StudyHub: Pomodoro, planner de tópicos, flashcards com repetição espaçada e conquistas em um só lugar.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <script>
+    // aplica o tema antes de desenhar a página (evita o "piscar" de cor)
+    (function () {
+      try {
+        var t = localStorage.getItem("studyhub.tema");
+        if (t !== "claro" && t !== "escuro") t = matchMedia("(prefers-color-scheme: light)").matches ? "claro" : "escuro";
+        document.documentElement.dataset.theme = t;
+      } catch (e) { /* armazenamento bloqueado: fica o tema escuro */ }
+    })();
+  </script>
+  <!-- As fontes são opcionais: sem internet o navegador usa a fonte do sistema -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app"><noscript><p style="padding:40px;font-family:sans-serif">O StudyHub precisa de JavaScript ativado para funcionar.</p></noscript></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script src="config.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

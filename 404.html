@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StudyHub</title>
+  <style>body{font-family:system-ui,sans-serif;background:#070a14;color:#e9ebf7;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center}a{color:#c8f542}</style>
+</head>
+<body>
+  <div><h1>Abrindo o StudyHub...</h1><p><a id="voltar" href="./">Se nada acontecer, clique aqui</a></p></div>
+  <script>
+    // O GitHub Pages mostra esta página para endereços que não existem, como /studyhub/planner.
+    // Ela descobre a pasta do site (/studyhub/ ou /) e abre a mesma tela pela rota com #: /studyhub/#/planner
+    (function () {
+      var partes = location.pathname.split("/").filter(Boolean);
+      var candidato = partes.length ? "/" + partes[0] + "/" : "/";
+      function ir(base) {
+        var resto = location.pathname.slice(base.length).replace(/^\/+|\/+$/g, "").replace(/\.html$/, "");
+        var destino = base + (resto && resto !== "index" ? "#/" + resto + location.search : "");
+        document.getElementById("voltar").href = destino;
+        location.replace(destino);
+      }
+      if (candidato === "/") { ir("/"); return; }
+      fetch(candidato + "config.js", { method: "HEAD", cache: "no-store" })
+        .then(function (r) { ir(r.ok ? candidato : "/"); })
+        .catch(function () { ir("/"); });
+    })();
+  </script>
+</body>
+</html>

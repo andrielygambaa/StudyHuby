@@ -1,0 +1,42 @@
+# Publica o front-end (que fica na raiz do repositório) no GitHub Pages.
+# Ative em: Settings > Pages > Build and deployment > Source: "GitHub Actions".
+# Endereço da API: Settings > Secrets and variables > Actions > Variables > STUDYHUB_API_URL
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Montar só os arquivos públicos do site
+        env:
+          API_URL: ${{ vars.STUDYHUB_API_URL }}
+        run: bash .github/montar-site.sh _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

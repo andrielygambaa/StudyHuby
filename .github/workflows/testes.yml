@@ -1,0 +1,40 @@
+# Roda os testes do back-end a cada envio: num MySQL 8 de verdade e também no modo SQLite.
+name: Testes
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=5s --health-timeout=5s --health-retries=24
+    steps:
+      - uses: actions/checkout@v6
+      - name: Instalar dependências
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+      - name: Testes com MySQL
+        env:
+          STUDYHUB_DB_HOST: 127.0.0.1
+          STUDYHUB_DB_USER: root
+          STUDYHUB_DB_PASSWORD: root
+        run: .venv/bin/python -m unittest discover -s tests -v
+      - name: Testes com SQLite
+        env:
+          STUDYHUB_BANCO: sqlite
+        run: .venv/bin/python -m unittest discover -s tests -v
