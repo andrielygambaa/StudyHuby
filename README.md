@@ -1,6 +1,6 @@
 # StudyHub
 
-Plataforma de estudos desenvolvida para o **Projeto Integrado (DWS + POO + BD)** do Colégio UNASP, 2º TI.
+Plataforma de estudos desenvolvida para o **Projeto Integrado (DWS + POO + BD)** do Colégio UNASP, 2º TIA.
 
 Cada pessoa cria a sua conta e estuda com quatro módulos ligados por uma camada de gamificação:
 
@@ -178,4 +178,4 @@ O fluxo `.github/workflows/testes.yml` roda os mesmos testes num **MySQL 8 de ve
 
 ## Autor
 
-Projeto individual. Preencha aqui: nome, turma (2º TI-_) e data.
+Andriely Gamba - 2°TIA
